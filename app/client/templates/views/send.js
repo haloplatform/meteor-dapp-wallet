@@ -447,6 +447,14 @@ Template['views_send'].events({
         TemplateVar.set('amount', 0);
     },
     /**
+    Send funds privately
+
+    @event change input.send-private
+    */
+    'change input.send-private': function(e){
+        TemplateVar.set('sendPrivate', $(e.currentTarget)[0].checked);
+    },
+    /**
     Select a token
 
     @event click .token-ether
@@ -514,6 +522,7 @@ Template['views_send'].events({
             data = getDataField(),
             contract = TemplateVar.getFrom('.compile-contract', 'contract'),
             sendAll = TemplateVar.get('sendAll');
+            sendPrivate = TemplateVar.get('sendPrivate');
 
 
         if(selectedAccount && !TemplateVar.get('sending')) {
@@ -637,14 +646,25 @@ Template['views_send'].events({
                     console.log('Gas Price: '+ gasPrice);
                     console.log('Amount:', amount);
 
-                    web3.eth.sendTransaction({
+                    var sendObject = {
                         from: selectedAccount.address,
                         to: to,
                         data: data,
                         value: amount,
                         gasPrice: gasPrice,
                         gas: estimatedGas
-                    }, function(error, txHash){
+                    }
+
+                    if(sendPrivate) {
+                        sendObject["privateFrom"] = btoa(selectedAccount.address);
+                        sendObject["privateTo"] = [btoa(to)];
+                    }
+
+                    console.log('tx to send', sendObject)
+
+                    web3.eth.sendTransaction(
+                        sendObject
+                    , function(error, txHash){
 
                         TemplateVar.set(template, 'sending', false);
 
