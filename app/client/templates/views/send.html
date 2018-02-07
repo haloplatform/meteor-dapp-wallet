@@ -55,6 +55,12 @@
                     {{i18n 'wallet.send.sendAll'}}
                 </label>
 
+                <br><br>
+                <label>
+                    <input type="checkbox" class="send-private">
+                    {{i18n 'wallet.send.sendPrivate'}}
+                </label>
+
                 <p class="send-info">
                     {{#if $eq (TemplateVar.get "selectedToken") "halo"}}
                         {{#if isEtherUnit}}

@@ -248,6 +248,7 @@
             "feeHigh": "Faster",
             "addData": "Add data",
             "sendAll": "Send everything",
+            "sendPrivate": "Send as Private",
             "removeData": "Remove data",
             "estimatedFee": "Estimated fee",
             "createContract": "Create contract",
